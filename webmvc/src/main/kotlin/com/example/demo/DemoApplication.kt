@@ -6,6 +6,8 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.beans
 import org.springframework.data.annotation.*
+import org.springframework.data.domain.AuditorAware
+import org.springframework.data.mongodb.config.EnableMongoAuditing
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.http.HttpMethod
@@ -14,8 +16,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.web.servlet.invoke
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService
 import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
@@ -31,11 +35,14 @@ import org.springframework.web.servlet.function.ServerResponse.*
 import org.springframework.web.servlet.function.router
 import java.net.URI
 import java.time.LocalDateTime
+import java.util.*
 import java.util.stream.Stream
+import kotlin.reflect.full.cast
 
 
 @SpringBootApplication
 @EnableMongoHttpSession
+@EnableMongoAuditing
 class DemoApplication
 
 
@@ -90,6 +97,17 @@ val beans = beans {
 
     bean {
         PasswordEncoderFactories.createDelegatingPasswordEncoder()
+    }
+
+    bean {
+        AuditorAware<Username> {
+            Optional.ofNullable(SecurityContextHolder.getContext())
+                    .map { it.authentication }
+                    .filter { it.isAuthenticated }
+                    .map { UserDetails::class.cast(it) }
+                    .map { Username(it.username) }
+                    .or { null }
+        }
     }
 
     bean<WebSecurityConfigurerAdapter> {
@@ -242,7 +260,7 @@ class PostHandler(private val posts: PostRepository, private val comments: Comme
     fun countCommentsOfPost(req: ServerRequest): ServerResponse {
         val id = req.pathVariable("id")
         val postId = PostId(id)
-        return ok().body(Count(count = this.comments.findByPost(postId).count()))
+        return ok().body(Count(count = this.comments.countByPost(postId)))
     }
 
     fun getCommentsOfPost(req: ServerRequest): ServerResponse {
@@ -295,6 +313,6 @@ data class Comment(
 )
 
 interface CommentRepository : MongoRepository<Comment, String> {
-
     fun findByPost(id: PostId): Stream<Comment>
+    fun countByPost(id: PostId): Long
 }
