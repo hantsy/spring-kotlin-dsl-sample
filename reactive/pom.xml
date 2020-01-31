@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>spring-dsl-sample-kotlin</artifactId>
+    <artifactId>spring-dsl-sample-reactive</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>spring-dsl-sample-kotlin</name>
+    <name>spring-dsl-sample-reactive</name>
     <description>Build the backend REST APIs using Kotlin</description>
 
     <properties>
