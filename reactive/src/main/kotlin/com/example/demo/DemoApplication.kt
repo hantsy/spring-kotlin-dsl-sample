@@ -6,7 +6,6 @@ import org.springframework.boot.runApplication
 import org.springframework.context.support.beans
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.Field
 import org.springframework.data.mongodb.core.mapping.event.ReactiveBeforeConvertCallback
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.http.HttpMethod
@@ -18,15 +17,12 @@ import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.dsl.config.builders.server.invoke
-
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository
-import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers
-import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers.*
 import org.springframework.session.data.mongo.config.annotation.web.reactive.EnableMongoWebSession
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.*
@@ -129,7 +125,31 @@ val beans = beans {
     bean<UserInfoHandler>()
 
     bean {
-        PostRoutes(ref(), ref()).routes()
+        val postHandler = ref<PostHandler>()
+        val userInfoHandler = ref<UserInfoHandler>()
+        router {
+            "posts".nest {
+                GET("", postHandler::all)
+                GET("count", postHandler::count)
+                GET("{id}", postHandler::get)
+                POST("", postHandler::create)
+                PUT("{id}", postHandler::update)
+                PATCH("{id}", postHandler::updateStatus)
+                DELETE("{id}", postHandler::delete)
+
+                //comments
+                "{id}/comments".nest {
+                    GET("count", postHandler::countCommentsOfPost)
+                    GET("", postHandler::getCommentsOfPost)
+                    POST("", postHandler::createComment)
+                }
+            }
+            //get user info
+            "/auth".nest {
+                GET("/user", userInfoHandler::userInfo)
+                GET("/logout", userInfoHandler::logout)
+            }
+        }
     }
 
     bean {
@@ -141,18 +161,20 @@ val beans = beans {
     profile("cors") {
         bean("corsFilter") {
 
-            //        val config = CorsConfiguration().apply {
-//            // allowedOrigins = listOf("http://allowed-origin.com")
-//            // maxAge = 8000L
-//            // addAllowedMethod("PUT")
-//            // addAllowedHeader("X-Allowed")
-//        }
-//
-//        val source = UrlBasedCorsConfigurationSource().apply {
-//            registerCorsConfiguration("/**", config)
-//        }
+            //val config = CorsConfiguration().apply {
+            // allowedOrigins = listOf("http://allowed-origin.com")
+            // maxAge = 8000L
+            // addAllowedMethod("PUT")
+            // addAllowedHeader("X-Allowed")
+            //}
 
-            CorsWebFilter { CorsConfiguration().applyPermitDefaultValues() }
+            val config = CorsConfiguration().applyPermitDefaultValues()
+
+            val source = UrlBasedCorsConfigurationSource().apply {
+                registerCorsConfiguration("/**", config)
+            }
+
+            CorsWebFilter(source)
         }
     }
 
@@ -161,7 +183,7 @@ val beans = beans {
     }
 
     bean<SecurityWebFilterChain> {
-//        val http = ref<ServerHttpSecurity>()
+        //        val http = ref<ServerHttpSecurity>()
 //        http {
 //            csrf { disable() }
 //            httpBasic { securityContextRepository = WebSessionServerSecurityContextRepository() }
@@ -207,32 +229,6 @@ val beans = beans {
 fun main(args: Array<String>) {
     runApplication<DemoApplication>(*args) {
         addInitializers(beans)
-    }
-}
-
-class PostRoutes(private val postHandler: PostHandler, private val userInfoHandler: UserInfoHandler) {
-    fun routes() = router {
-        "posts".nest {
-            GET("", postHandler::all)
-            GET("count", postHandler::count)
-            GET("{id}", postHandler::get)
-            POST("", postHandler::create)
-            PUT("{id}", postHandler::update)
-            PATCH("{id}", postHandler::updateStatus)
-            DELETE("{id}", postHandler::delete)
-
-            //comments
-            "{id}/comments".nest {
-                GET("count", postHandler::countCommentsOfPost)
-                GET("", postHandler::getCommentsOfPost)
-                POST("", postHandler::createComment)
-            }
-        }
-        //get user info
-        "/auth".nest {
-            GET("/user", userInfoHandler::userInfo)
-            GET("/logout", userInfoHandler::logout)
-        }
     }
 }
 

@@ -3,7 +3,6 @@ package com.example.demo
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.beans
 import org.springframework.data.annotation.*
 import org.springframework.data.domain.AuditorAware
@@ -17,18 +16,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.web.servlet.invoke
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.MapReactiveUserDetailsService
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
-import org.springframework.security.provisioning.UserDetailsManager
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 import org.springframework.session.data.mongo.config.annotation.web.http.EnableMongoHttpSession
 import org.springframework.session.web.http.HeaderHttpSessionIdResolver
 import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.reactive.CorsWebFilter
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.ServerResponse.*
@@ -80,18 +78,20 @@ val beans = beans {
     profile("cors") {
         bean("corsFilter") {
 
-            //        val config = CorsConfiguration().apply {
-//            // allowedOrigins = listOf("http://allowed-origin.com")
-//            // maxAge = 8000L
-//            // addAllowedMethod("PUT")
-//            // addAllowedHeader("X-Allowed")
-//        }
-//
-//        val source = UrlBasedCorsConfigurationSource().apply {
-//            registerCorsConfiguration("/**", config)
-//        }
+            //val config = CorsConfiguration().apply {
+            // allowedOrigins = listOf("http://allowed-origin.com")
+            // maxAge = 8000L
+            // addAllowedMethod("PUT")
+            // addAllowedHeader("X-Allowed")
+            //}
 
-            CorsWebFilter { CorsConfiguration().applyPermitDefaultValues() }
+            val config = CorsConfiguration().applyPermitDefaultValues()
+
+            val source = UrlBasedCorsConfigurationSource().apply {
+                registerCorsConfiguration("/**", config)
+            }
+
+            CorsFilter(source)
         }
     }
 
