@@ -106,7 +106,6 @@ val beans = beans {
                     .filter { it.isAuthenticated }
                     .map { UserDetails::class.cast(it) }
                     .map { Username(it.username) }
-                    .or { null }
         }
     }
 
