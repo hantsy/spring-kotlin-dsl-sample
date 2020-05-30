@@ -55,7 +55,11 @@ val beans = beans {
                             )
                     )
                     .log()
-                    .subscribe(null, null, { println("data initialization done...") })
+                    .subscribe(
+                            { println(it) },
+                            { println(it) },
+                            { println("data initialization done...") }
+                    )
         }
     }
 
@@ -84,36 +88,20 @@ val beans = beans {
                 }
             }
 
-            Mono.just(ent)
-                    .flatMap { ent ->
-                        user.map { user ->
-                            if (ent.id == null) {
-                                ent.apply {
-                                    createdBy = user
-                                    lastModifiedBy = user
-                                }
 
-                            } else {
-                                ent.apply {
-                                    lastModifiedBy = user
-                                }
-                            }
-                        }.defaultIfEmpty(
-                                if (ent.id == null) {
-                                    ent.apply {
-                                        createdBy = null
-                                        lastModifiedBy = null
-                                    }
-                                } else {
-                                    ent.apply {
-                                        lastModifiedBy = null
-                                    }
-
-                                }
-                        )
-
+            user.map { user ->
+                if (ent.id == null) {
+                    ent.apply {
+                        createdBy = user
+                        lastModifiedBy = user
                     }
 
+                } else {
+                    ent.apply {
+                        lastModifiedBy = user
+                    }
+                }
+            }.defaultIfEmpty(ent)
 
         }
     }
@@ -197,15 +185,15 @@ val beans = beans {
 //        }
         //@formatter:off
         ref<ServerHttpSecurity>()
-                    .csrf { it.disable() }
-                    .httpBasic{ it.securityContextRepository(WebSessionServerSecurityContextRepository())}
-                    .authorizeExchange {
-                        it.pathMatchers("/auth/**").authenticated()
+                .csrf { it.disable() }
+                .httpBasic { it.securityContextRepository(WebSessionServerSecurityContextRepository()) }
+                .authorizeExchange {
+                    it.pathMatchers("/auth/**").authenticated()
                             .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
                             .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
                             .pathMatchers("/posts/**").authenticated()
                             .anyExchange().permitAll()
-                    }
+                }
                 .build()
         //@formatter:on
     }

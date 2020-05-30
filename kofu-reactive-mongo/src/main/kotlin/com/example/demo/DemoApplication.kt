@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.query.isEqualTo
 import org.springframework.fu.kofu.application
 import org.springframework.fu.kofu.configuration
 import org.springframework.fu.kofu.mongo.reactiveMongodb
+import org.springframework.fu.kofu.reactiveWebApplication
 import org.springframework.fu.kofu.webflux.webFlux
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.web.server.ServerHttpSecurity
@@ -43,7 +44,7 @@ import java.net.URI
 import java.time.LocalDateTime
 
 
-val app = application(WebApplicationType.REACTIVE) {
+val app = reactiveWebApplication {
     configurationProperties<SampleProperties>(prefix = "sample")
     enable(dataConfig)
     enable(webConfig)
@@ -90,42 +91,25 @@ val dataConfig = configuration {
                     }
                 }
 
-                Mono.just(ent)
-                        .flatMap { ent ->
-                            user.map { user ->
-                                if (ent.id == null) {
-                                    ent.apply {
-                                        createdBy = user
-                                        lastModifiedBy = user
-                                    }
 
-                                } else {
-                                    ent.apply {
-                                        lastModifiedBy = user
-                                    }
-                                }
-                            }.defaultIfEmpty(
-                                    if (ent.id == null) {
-                                        ent.apply {
-                                            createdBy = null
-                                            lastModifiedBy = null
-                                        }
-                                    } else {
-                                        ent.apply {
-                                            lastModifiedBy = null
-                                        }
-
-                                    }
-                            )
-
+                user.map { user ->
+                    if (ent.id == null) {
+                        ent.apply {
+                            createdBy = user
+                            lastModifiedBy = user
                         }
 
+                    } else {
+                        ent.apply {
+                            lastModifiedBy = user
+                        }
+                    }
+                }.defaultIfEmpty(ent)
 
             }
         }
-
-
     }
+
 }
 
 
@@ -198,18 +182,18 @@ val securityConfig = configuration {
 //            }
 //        }
             //@formatter:off
-        ref<ServerHttpSecurity>()
+            ref<ServerHttpSecurity>()
                     .csrf { it.disable() }
-                    .httpBasic{ it.securityContextRepository(WebSessionServerSecurityContextRepository())}
+                    .httpBasic { it.securityContextRepository(WebSessionServerSecurityContextRepository()) }
                     .authorizeExchange {
                         it.pathMatchers("/auth/**").authenticated()
-                            .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
-                            .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
-                            .pathMatchers("/posts/**").authenticated()
-                            .anyExchange().permitAll()
+                                .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
+                                .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
+                                .pathMatchers("/posts/**").authenticated()
+                                .anyExchange().permitAll()
                     }
-                .build()
-        //@formatter:on
+                    .build()
+            //@formatter:on
         }
 
         bean {
@@ -362,7 +346,7 @@ class PostRepository(private val mongo: ReactiveMongoOperations, private val obj
         val posts: List<Post> = objectMapper.readValue(postsResource.inputStream)
         deleteAll()
                 .thenMany(
-                    Flux.fromIterable(posts).flatMap { save(it) }
+                        Flux.fromIterable(posts).flatMap { save(it) }
                 )
                 .log()
                 .subscribe(
