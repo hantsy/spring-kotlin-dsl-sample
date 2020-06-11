@@ -22,7 +22,7 @@ public class PostHandler {
 
     public Mono<ServerResponse> create(ServerRequest req) {
         return req.bodyToMono(Post.class)
-                .flatMap(post -> this.posts.save(post))
+                .flatMap(this.posts::save)
                 .flatMap(p -> created(URI.create("/posts/" + p)).build());
     }
 
@@ -47,7 +47,7 @@ public class PostHandler {
                         req.bodyToMono(Post.class)
                 )
                 .cast(Post.class)
-                .flatMap(post -> this.posts.save(post))
+                .flatMap(this.posts::save)
                 .flatMap(post -> noContent().build());
 
     }
