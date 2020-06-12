@@ -63,7 +63,7 @@ class IntegrationTests {
                 .uri("/posts")
                 .bodyValue(Post(content = "test post"))
                 .headers {
-                    it.setBasicAuth("user", "password")
+                   // it.setBasicAuth("user", "password")
                     it.contentType = MediaType.APPLICATION_JSON
                 }
                 .exchange()
