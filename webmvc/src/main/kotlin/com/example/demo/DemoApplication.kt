@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.web.servlet.invoke
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
@@ -108,25 +107,45 @@ val beans = beans {
                     .map { Username(it.username) }
         }
     }
+    //https://github.com/spring-projects/spring-security/issues/7961#issuecomment-700005879
+//    bean<WebSecurityConfigurerAdapter> {
+//        val config = object : WebSecurityConfigurerAdapter() {
+//            override fun configure(http: HttpSecurity?) {
+//                http {
+//                    csrf { disable() }
+//                    httpBasic { }
+//                    securityMatcher("/**")
+//                    authorizeRequests {
+//                        authorize("/auth/**", authenticated)
+//                        authorize(AntPathRequestMatcher("/posts/**", HttpMethod.GET.name), permitAll)
+//                        authorize(AntPathRequestMatcher("/posts/**", HttpMethod.DELETE.name), "hasRole('ADMIN')")
+//                        authorize("/posts/**", authenticated)
+//                        authorize(anyRequest, permitAll)
+//                    }
+//                }
+//            }
+//        }
+//        config
+//    }
 
-    bean<WebSecurityConfigurerAdapter> {
-        val config = object : WebSecurityConfigurerAdapter() {
-            override fun configure(http: HttpSecurity?) {
-                http {
-                    csrf { disable() }
-                    httpBasic { }
-                    securityMatcher("/**")
-                    authorizeRequests {
-                        authorize("/auth/**", authenticated)
-                        authorize(AntPathRequestMatcher("/posts/**", HttpMethod.GET.name), permitAll)
-                        authorize(AntPathRequestMatcher("/posts/**", HttpMethod.DELETE.name), "hasRole('ADMIN')")
-                        authorize("/posts/**", authenticated)
-                        authorize(anyRequest, permitAll)
-                    }
-                }
+    bean {
+        val http = ref<HttpSecurity>()
+        http {
+            csrf { disable() }
+            httpBasic { }
+            securityMatcher("/**")
+            authorizeRequests {
+                authorize("/auth/**", authenticated)
+                authorize(AntPathRequestMatcher("/posts/**", HttpMethod.GET.name), permitAll)
+                authorize(HttpMethod.DELETE, "/posts/**", "hasRole('ADMIN')")
+                authorize("/posts/**", authenticated)
+                authorize(anyRequest, permitAll)
             }
+//            formLogin {
+//                loginPage = "/log-in"
+//            }
         }
-        config
+        http.build()
     }
 
     bean {
