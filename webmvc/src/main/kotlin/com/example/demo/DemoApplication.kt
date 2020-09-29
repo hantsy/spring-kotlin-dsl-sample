@@ -137,7 +137,7 @@ val beans = beans {
             authorizeRequests {
                 authorize("/auth/**", authenticated)
                 authorize(AntPathRequestMatcher("/posts/**", HttpMethod.GET.name), permitAll)
-                authorize(HttpMethod.DELETE, "/posts/**", "hasRole('ADMIN')")
+                authorize(HttpMethod.DELETE, "/posts/**", hasRole("ADMIN"))
                 authorize("/posts/**", authenticated)
                 authorize(anyRequest, permitAll)
             }
