@@ -3,12 +3,10 @@ package com.example.demo;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-@SpringBootTest
 class IntegrationTests {
 
     private WebTestClient client = WebTestClient.bindToServer().baseUrl("http://localhost:8181").build();
