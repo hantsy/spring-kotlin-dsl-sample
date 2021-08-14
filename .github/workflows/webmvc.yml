@@ -23,10 +23,10 @@ jobs:
       with:
         java-version: '16'
         distribution: 'adopt'
-    - name: Setup Postgres in Docker 
-      run: |
-        docker-compose up -d postgres
-        docker ps -a
+    # - name: Setup Postgres in Docker 
+      # run: |
+        # docker-compose up -d postgres
+        # docker ps -a
     - name: Build with Maven
       run: |
         mvn -B -q clean verify -f webmvc/pom.xml
