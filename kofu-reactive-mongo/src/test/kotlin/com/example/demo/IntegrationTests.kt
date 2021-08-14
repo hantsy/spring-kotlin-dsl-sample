@@ -33,8 +33,8 @@ class IntegrationTests {
                 .exchange()
                 .expectStatus().isOk
                 .expectBody()
-                .jsonPath("$.[0].title").isEqualTo("post one")
-                .jsonPath("$.[1].title").isEqualTo("post two")
+                .jsonPath("$.[0].title").isEqualTo("Learn Spring KoFu")
+                .jsonPath("$.[1].title").isEqualTo("Learn Spring and Kotlin")
 
     }
 

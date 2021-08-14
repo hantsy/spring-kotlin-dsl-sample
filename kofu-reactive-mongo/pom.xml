@@ -18,7 +18,7 @@
     <properties>
         <java.version>16</java.version>
         <kotlin.version>1.5.21</kotlin.version>
-        <spring-fu.version>0.5.0-SNAPSHOT</spring-fu.version>
+        <spring-fu.version>0.4.5-SNAPSHOT</spring-fu.version>
     </properties>
 
     <dependencies>
@@ -39,7 +39,6 @@
             <artifactId>spring-fu-kofu</artifactId>
             <version>${spring-fu.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
@@ -51,6 +50,11 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor.kotlin</groupId>
+            <artifactId>reactor-kotlin-extensions</artifactId>
         </dependency>
 
         <dependency>
