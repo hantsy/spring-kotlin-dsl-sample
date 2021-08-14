@@ -9,7 +9,10 @@ on:
       - "jafu-reactive-r2dbc/**"
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
   build:

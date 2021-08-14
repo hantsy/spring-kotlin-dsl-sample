@@ -9,7 +9,10 @@ on:
       - "kofu-reactive-mongo/**"
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
   build:
