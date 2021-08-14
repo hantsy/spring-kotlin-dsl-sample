@@ -1,0 +1,35 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "maven"
+    directory: "/webmvc"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    reviewers:
+      - "hantsy"
+    assignees:
+      - "hantsy"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "maven"
+    directory: "/webflux"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: "maven"
+    directory: "/jafu-reactive-r2dbc"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: "maven"
+    directory: "/kofu-reactive-mongo"
+    schedule:
+      interval: weekly
+
+  
