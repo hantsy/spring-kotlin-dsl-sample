@@ -23,7 +23,7 @@ jobs:
       with:
         java-version: '16'
         distribution: 'adopt'
-    - name: Setup Postgres in Docker 
+    - name: Setup MongoDB in Docker 
       run: |
         docker-compose up -d mongodb
         docker ps -a
