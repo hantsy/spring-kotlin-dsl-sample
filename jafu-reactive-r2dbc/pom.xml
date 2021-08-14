@@ -5,18 +5,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.0.RELEASE</version>
+        <version>2.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>jafu-reactive-r2dbc</artifactId>
+    <artifactId>spring-kotlin-dsl-sample-jafu-reactive-r2dbc</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>jafu-reactive-r2dbc</name>
+    <name>spring-kotlin-dsl-sample-jafu-reactive-r2dbc</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <java.version>11</java.version>
-        <spring-fu.version>0.3.0</spring-fu.version>
+        <java.version>16</java.version>
+        <spring-fu.version>0.4.5-SNAPSHOT</spring-fu.version>
     </properties>
 
     <dependencies>
@@ -44,18 +44,13 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+			<optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.projectreactor</groupId>
