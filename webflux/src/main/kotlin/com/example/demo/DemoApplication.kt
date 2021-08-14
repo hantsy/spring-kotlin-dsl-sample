@@ -49,8 +49,8 @@ val beans = beans {
                     .thenMany<Post>(
                             posts.saveAll(
                                     arrayListOf(
-                                            Post(null, "my first post", "content of my first post"),
-                                            Post(null, "my second post", "content of my second post")
+                                            Post(null, "Learn Spring KoFu", "content of my first post"),
+                                            Post(null, "Learn Spring and Kotlin", "content of my second post")
                                     )
                             )
                     )

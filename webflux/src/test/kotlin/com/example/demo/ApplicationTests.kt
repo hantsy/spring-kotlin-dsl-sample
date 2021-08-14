@@ -9,7 +9,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.server.RouterFunction
 import org.springframework.web.reactive.function.server.ServerResponse
 
-@SpringBootTest(classes = arrayOf(DemoApplication::class),
+@SpringBootTest(classes = [DemoApplication::class],
         properties = ["context.initializer.classes=com.example.demo.TestConfigInitializer"])
 class ApplicationTests {
 
@@ -27,7 +27,6 @@ class ApplicationTests {
 
     @Test
     fun `get all posts`() {
-
         client.get().uri("/posts")
                 .exchange().expectStatus().isOk
     }
