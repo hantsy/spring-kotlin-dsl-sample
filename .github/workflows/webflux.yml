@@ -9,6 +9,8 @@ on:
       - "webflux/**"
     branches: [ master ]
   pull_request:
+    paths:
+      - "webflux/**"
     types:
       - opened
       - synchronize

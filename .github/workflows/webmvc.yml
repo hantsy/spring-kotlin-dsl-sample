@@ -9,6 +9,8 @@ on:
       - "webmvc/**"
     branches: [ master ]
   pull_request:
+    paths:
+      - "webmvc/**"
     types:
       - opened
       - synchronize

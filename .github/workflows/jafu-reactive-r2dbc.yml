@@ -9,6 +9,8 @@ on:
       - "jafu-reactive-r2dbc/**"
     branches: [ master ]
   pull_request:
+    paths:
+      - "jafu-reactive-r2dbc/**"
     types:
       - opened
       - synchronize

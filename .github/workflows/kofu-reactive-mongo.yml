@@ -9,6 +9,8 @@ on:
       - "kofu-reactive-mongo/**"
     branches: [ master ]
   pull_request:
+    paths:
+      - "kofu-reactive-mongo/**"
     types:
       - opened
       - synchronize
