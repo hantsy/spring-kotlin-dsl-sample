@@ -17,7 +17,7 @@
 
     <properties>
         <java.version>16</java.version>
-        <kotlin.version>1.5.21</kotlin.version>
+        <kotlin.version>1.5.30</kotlin.version>
         <spring-fu.version>0.4.5-SNAPSHOT</spring-fu.version>
     </properties>
 
