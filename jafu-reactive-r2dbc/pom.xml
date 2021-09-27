@@ -15,7 +15,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <spring-fu.version>0.4.5-SNAPSHOT</spring-fu.version>
     </properties>
 

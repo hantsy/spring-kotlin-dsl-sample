@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.event.ReactiveBeforeConvertCallback
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.http.HttpMethod
+import org.springframework.security.config.web.server.invoke
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
@@ -19,7 +20,9 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers.pathMatchers
 import org.springframework.session.data.mongo.config.annotation.web.reactive.EnableMongoWebSession
+import org.springframework.util.PathMatcher
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
@@ -46,20 +49,20 @@ val beans = beans {
             println("start data initialization...")
             val posts = ref<PostRepository>()
             posts.deleteAll()
-                    .thenMany<Post>(
-                            posts.saveAll(
-                                    arrayListOf(
-                                            Post(null, "Learn Spring KoFu", "content of my first post"),
-                                            Post(null, "Learn Spring and Kotlin", "content of my second post")
-                                    )
-                            )
+                .thenMany<Post>(
+                    posts.saveAll(
+                        arrayListOf(
+                            Post(null, "Learn Spring KoFu", "content of my first post"),
+                            Post(null, "Learn Spring and Kotlin", "content of my second post")
+                        )
                     )
-                    .log()
-                    .subscribe(
-                            { println(it) },
-                            { println(it) },
-                            { println("data initialization done...") }
-                    )
+                )
+                .log()
+                .subscribe(
+                    { println(it) },
+                    { println(it) },
+                    { println("data initialization done...") }
+                )
         }
     }
 
@@ -67,12 +70,12 @@ val beans = beans {
         ReactiveBeforeConvertCallback<PersistentEntity> { entity, collection ->
             println("ReactiveBeforeConvertCallback.onBeforeConvert called...")
             val user = ReactiveSecurityContextHolder.getContext()
-                    .map { it.authentication }
-                    .filter { it != null && it.isAuthenticated }
-                    .map { it.principal }
-                    .cast(UserDetails::class.java)
-                    .map { Username(it.username) }
-                    .switchIfEmpty { Mono.empty() }
+                .map { it.authentication }
+                .filter { it != null && it.isAuthenticated }
+                .map { it.principal }
+                .cast(UserDetails::class.java)
+                .map { Username(it.username) }
+                .switchIfEmpty { Mono.empty() }
 
             val currentTime = LocalDateTime.now()
 
@@ -171,44 +174,44 @@ val beans = beans {
     }
 
     bean<SecurityWebFilterChain> {
-        //        val http = ref<ServerHttpSecurity>()
-//        http {
-//            csrf { disable() }
-//            httpBasic { securityContextRepository = WebSessionServerSecurityContextRepository() }
-//            authorizeExchange {
-//                authorize("/auth/**", authenticated)
-//                authorize(pathMatchers(HttpMethod.GET, "/posts/**"), permitAll)
-//                authorize(pathMatchers(HttpMethod.DELETE, "/posts/**"), hasRole("ADMIN"))
-//                authorize("/posts/**", authenticated)
-//                authorize(anyExchange, permitAll)
-//            }
-//        }
+        val http = ref<ServerHttpSecurity>()
+        http {
+            csrf { disable() }
+            httpBasic { securityContextRepository = WebSessionServerSecurityContextRepository() }
+            authorizeExchange {
+                authorize("/auth/**", authenticated)
+                authorize(pathMatchers(HttpMethod.GET, "/posts/**"), permitAll)
+                authorize(pathMatchers(HttpMethod.DELETE, "/posts/**"), hasRole("ADMIN"))
+                authorize("/posts/**", authenticated)
+                authorize(anyExchange, permitAll)
+            }
+        }
         //@formatter:off
-        ref<ServerHttpSecurity>()
-                .csrf { it.disable() }
-                .httpBasic { it.securityContextRepository(WebSessionServerSecurityContextRepository()) }
-                .authorizeExchange {
-                    it.pathMatchers("/auth/**").authenticated()
-                            .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
-                            .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
-                            .pathMatchers("/posts/**").authenticated()
-                            .anyExchange().permitAll()
-                }
-                .build()
+//        ref<ServerHttpSecurity>()
+//                .csrf { it.disable() }
+//                .httpBasic { it.securityContextRepository(WebSessionServerSecurityContextRepository()) }
+//                .authorizeExchange {
+//                    it.pathMatchers("/auth/**").authenticated()
+//                            .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
+//                            .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
+//                            .pathMatchers("/posts/**").authenticated()
+//                            .anyExchange().permitAll()
+//                }
+//                .build()
         //@formatter:on
     }
 
     bean {
         val passwordEncoder = ref<PasswordEncoder>()
         val user = User.withUsername("user")
-                .passwordEncoder { passwordEncoder.encode(it) }
-                .password("password")
-                .roles("USER").build()
+            .passwordEncoder { passwordEncoder.encode(it) }
+            .password("password")
+            .roles("USER").build()
         val admin = User.withUsername("admin")
-                .password("password")
-                .passwordEncoder { passwordEncoder.encode(it) }
-                .roles("USER", "ADMIN")
-                .build()
+            .password("password")
+            .passwordEncoder { passwordEncoder.encode(it) }
+            .roles("USER", "ADMIN")
+            .build()
         MapReactiveUserDetailsService(user, admin)
     }
 
@@ -223,20 +226,20 @@ fun main(args: Array<String>) {
 class UserInfoHandler {
     fun userInfo(req: ServerRequest): Mono<ServerResponse> {
         return req.principal()
-                .map { user ->
-                    mapOf<String, Any>(
-                            "user" to user.name,
-                            "roles" to (user as Authentication).authorities.map { it.authority })
-                }
-                .flatMap { ok().bodyValue(it) }
+            .map { user ->
+                mapOf<String, Any>(
+                    "user" to user.name,
+                    "roles" to (user as Authentication).authorities.map { it.authority })
+            }
+            .flatMap { ok().bodyValue(it) }
     }
 
     fun logout(req: ServerRequest): Mono<ServerResponse> {
         return req.session()
-                .doOnNext { it.invalidate() }
-                .log()
-                .then()
-                .flatMap { ok().build() }
+            .doOnNext { it.invalidate() }
+            .log()
+            .then()
+            .flatMap { ok().build() }
     }
 }
 
@@ -252,47 +255,47 @@ class PostHandler(private val posts: PostRepository, private val comments: Comme
 
     fun create(req: ServerRequest): Mono<ServerResponse> {
         return req.bodyToMono(Post::class.java)
-                .flatMap { this.posts.save(it) }
-                .flatMap { created(URI.create("/posts/" + it.id)).build() }
+            .flatMap { this.posts.save(it) }
+            .flatMap { created(URI.create("/posts/" + it.id)).build() }
     }
 
     fun get(req: ServerRequest): Mono<ServerResponse> {
         return this.posts.findById(req.pathVariable("id"))
-                .flatMap { ok().body(Mono.just(it), Post::class.java) }
-                .switchIfEmpty { notFound().build() }
+            .flatMap { ok().body(Mono.just(it), Post::class.java) }
+            .switchIfEmpty { notFound().build() }
     }
 
     fun update(req: ServerRequest): Mono<ServerResponse> {
         return this.posts.findById(req.pathVariable("id"))
-                .zipWith(req.bodyToMono(Post::class.java))
-                .map { it.t1.copy(title = it.t2.title, content = it.t2.content) }
-                .flatMap { this.posts.save(it) }
-                .flatMap { noContent().build() }
-                .switchIfEmpty { notFound().build() }
+            .zipWith(req.bodyToMono(Post::class.java))
+            .map { it.t1.copy(title = it.t2.title, content = it.t2.content) }
+            .flatMap { this.posts.save(it) }
+            .flatMap { noContent().build() }
+            .switchIfEmpty { notFound().build() }
     }
 
     fun updateStatus(req: ServerRequest): Mono<ServerResponse> {
         return this.posts.findById(req.pathVariable("id"))
-                .zipWith(req.bodyToMono(UpdateStatusRequest::class.java))
-                .map { it.t1.copy(status = it.t2.status) }
-                .flatMap { this.posts.save(it) }
-                .flatMap { noContent().build() }
-                .switchIfEmpty { notFound().build() }
+            .zipWith(req.bodyToMono(UpdateStatusRequest::class.java))
+            .map { it.t1.copy(status = it.t2.status) }
+            .flatMap { this.posts.save(it) }
+            .flatMap { noContent().build() }
+            .switchIfEmpty { notFound().build() }
     }
 
     fun delete(req: ServerRequest): Mono<ServerResponse> {
         return this.posts.deleteById(req.pathVariable("id"))
-                .flatMap { noContent().build() }
+            .flatMap { noContent().build() }
     }
 
     fun createComment(req: ServerRequest): Mono<ServerResponse> {
         val id = req.pathVariable("id")
         val postId = PostId(id)
         return Mono.just(Comment(post = postId))
-                .zipWith(req.bodyToMono(CommentForm::class.java))
-                .map { it.t1.copy(content = it.t2.content) }
-                .flatMap { this.comments.save(it) }
-                .flatMap { created(URI.create("/posts/" + id + "/comments" + it.id)).build() }
+            .zipWith(req.bodyToMono(CommentForm::class.java))
+            .map { it.t1.copy(content = it.t2.content) }
+            .flatMap { this.comments.save(it) }
+            .flatMap { created(URI.create("/posts/" + id + "/comments" + it.id)).build() }
     }
 
     fun countCommentsOfPost(req: ServerRequest): Mono<ServerResponse> {
@@ -331,14 +334,14 @@ interface PersistentEntity {
 
 @Document
 data class Post(
-        @Id override var id: String? = null,
-        var title: String? = null,
-        var content: String? = null,
-        val status: Status = Status.DRAFT,
-        override var createdDate: LocalDateTime = LocalDateTime.now(),
-        override var lastModifiedDate: LocalDateTime = createdDate,
-        override var createdBy: Username? = null,
-        override var lastModifiedBy: Username? = null
+    @Id override var id: String? = null,
+    var title: String? = null,
+    var content: String? = null,
+    val status: Status = Status.DRAFT,
+    override var createdDate: LocalDateTime = LocalDateTime.now(),
+    override var lastModifiedDate: LocalDateTime = createdDate,
+    override var createdBy: Username? = null,
+    override var lastModifiedBy: Username? = null
 ) : PersistentEntity
 
 enum class Status {
@@ -349,13 +352,13 @@ interface PostRepository : ReactiveMongoRepository<Post, String>
 
 @Document
 data class Comment(
-        @Id override var id: String? = null,
-        var content: String? = null,
-        var post: PostId,
-        override var createdDate: LocalDateTime = LocalDateTime.now(),
-        override var lastModifiedDate: LocalDateTime = createdDate,
-        override var createdBy: Username? = null,
-        override var lastModifiedBy: Username? = null
+    @Id override var id: String? = null,
+    var content: String? = null,
+    var post: PostId,
+    override var createdDate: LocalDateTime = LocalDateTime.now(),
+    override var lastModifiedDate: LocalDateTime = createdDate,
+    override var createdBy: Username? = null,
+    override var lastModifiedBy: Username? = null
 ) : PersistentEntity
 
 interface CommentRepository : ReactiveMongoRepository<Comment, String> {

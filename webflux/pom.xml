@@ -16,8 +16,9 @@
     <description>Build the backend REST APIs using Kotlin</description>
 
     <properties>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <kotlin.version>1.5.31</kotlin.version>
+        <kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
     </properties>
 
     <dependencies>
