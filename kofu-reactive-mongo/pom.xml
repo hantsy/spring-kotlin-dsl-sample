@@ -19,7 +19,7 @@
         <java.version>17</java.version>
         <kotlin.version>1.5.31</kotlin.version>
 		<kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget><!-- this does not work -->
-        <spring-fu.version>0.4.5-SNAPSHOT</spring-fu.version>
+        <spring-fu.version>0.5.0-SNAPSHOT</spring-fu.version>
     </properties>
 
     <dependencies>
