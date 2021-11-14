@@ -174,6 +174,19 @@ val beans = beans {
     }
 
     bean<SecurityWebFilterChain> {
+        //@formatter:off
+//        ref<ServerHttpSecurity>()
+//            .csrf { it.disable() }
+//            .httpBasic { it.securityContextRepository(WebSessionServerSecurityContextRepository()) }
+//            .authorizeExchange {
+//                it.pathMatchers("/auth/**").authenticated()
+//                    .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
+//                    .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
+//                    .pathMatchers("/posts/**").authenticated()
+//                    .anyExchange().permitAll()
+//            }
+//            .build()
+        //@formatter:on
         val http = ref<ServerHttpSecurity>()
         http {
             csrf { disable() }
@@ -186,20 +199,7 @@ val beans = beans {
                 authorize(anyExchange, permitAll)
             }
         }
-        http.build()
-        //@formatter:off
-//        ref<ServerHttpSecurity>()
-//                .csrf { it.disable() }
-//                .httpBasic { it.securityContextRepository(WebSessionServerSecurityContextRepository()) }
-//                .authorizeExchange {
-//                    it.pathMatchers("/auth/**").authenticated()
-//                            .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
-//                            .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
-//                            .pathMatchers("/posts/**").authenticated()
-//                            .anyExchange().permitAll()
-//                }
-//                .build()
-        //@formatter:on
+        //http.build()
     }
 
     bean {
