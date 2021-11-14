@@ -13,7 +13,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @SpringBootTest(classes = [DemoApplication::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [TestConfigInitializer::class])
-@EnableAutoConfiguration(exclude = [EmbeddedMongoAutoConfiguration::class])
 class IntegrationTests {
 
     private lateinit var client: WebTestClient
