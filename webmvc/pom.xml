@@ -17,8 +17,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <kotlin.version>1.5.31</kotlin.version>
-		<kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget><!-- this does not work -->
+        <kotlin.version>1.6.0-RC2</kotlin.version>
     </properties>
 
     <dependencies>
@@ -62,11 +61,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
@@ -84,11 +78,12 @@
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
+                <version>${kotlin.version}</version>
                 <configuration>
                     <args>
                         <arg>-Xjsr305=strict</arg>
                     </args>
-					<jvmTarget>11</jvmTarget>
+<!--					<jvmTarget>11</jvmTarget>-->
                     <compilerPlugins>
                         <plugin>spring</plugin>
                     </compilerPlugins>

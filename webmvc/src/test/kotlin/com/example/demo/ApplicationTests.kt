@@ -24,12 +24,10 @@ class ApplicationTests {
 
     lateinit var mockMvc: MockMvc
 
-
     @BeforeAll
     fun setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build()
     }
-
 
     @Test
     fun `get all posts`() {
@@ -42,8 +40,8 @@ class ApplicationTests {
                 content {
                     contentType(MediaType.APPLICATION_JSON)
                 }
-                jsonPath("length()", Matchers.greaterThan(0))
+                jsonPath("$.size()", Matchers.greaterThan(0))
             }
-    }
 
+    }
 }
