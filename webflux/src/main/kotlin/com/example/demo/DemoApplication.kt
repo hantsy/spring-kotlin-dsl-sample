@@ -186,6 +186,7 @@ val beans = beans {
                 authorize(anyExchange, permitAll)
             }
         }
+        http.build()
         //@formatter:off
 //        ref<ServerHttpSecurity>()
 //                .csrf { it.disable() }
