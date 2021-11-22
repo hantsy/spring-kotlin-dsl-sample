@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.event.ReactiveBeforeConvertCallback
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.http.HttpMethod
-import org.springframework.security.config.web.server.invoke
 import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.config.web.server.invoke
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService
@@ -18,11 +18,9 @@ import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers.pathMatchers
 import org.springframework.session.data.mongo.config.annotation.web.reactive.EnableMongoWebSession
-import org.springframework.util.PathMatcher
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
@@ -173,7 +171,20 @@ val beans = beans {
         PasswordEncoderFactories.createDelegatingPasswordEncoder()
     }
 
-    bean<SecurityWebFilterChain> {
+    bean {
+        //@formatter:off
+//        ref<ServerHttpSecurity>()
+//            .csrf { it.disable() }
+//            .httpBasic { it.securityContextRepository(WebSessionServerSecurityContextRepository()) }
+//            .authorizeExchange {
+//                it.pathMatchers("/auth/**").authenticated()
+//                    .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
+//                    .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
+//                    .pathMatchers("/posts/**").authenticated()
+//                    .anyExchange().permitAll()
+//            }
+//            .build()
+        //@formatter:on
         val http = ref<ServerHttpSecurity>()
         http {
             csrf { disable() }
@@ -186,19 +197,7 @@ val beans = beans {
                 authorize(anyExchange, permitAll)
             }
         }
-        //@formatter:off
-//        ref<ServerHttpSecurity>()
-//                .csrf { it.disable() }
-//                .httpBasic { it.securityContextRepository(WebSessionServerSecurityContextRepository()) }
-//                .authorizeExchange {
-//                    it.pathMatchers("/auth/**").authenticated()
-//                            .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
-//                            .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
-//                            .pathMatchers("/posts/**").authenticated()
-//                            .anyExchange().permitAll()
-//                }
-//                .build()
-        //@formatter:on
+        //http.build()
     }
 
     bean {

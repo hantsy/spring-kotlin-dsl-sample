@@ -14,16 +14,14 @@ import org.springframework.web.reactive.function.server.ServerResponse
 class ApplicationTests {
 
     @Autowired
-    private lateinit var routing: RouterFunction<ServerResponse>
+    private lateinit var routerFunction: RouterFunction<ServerResponse>
 
     private lateinit var client: WebTestClient
 
-
     @BeforeAll
     fun setup() {
-        client = WebTestClient.bindToRouterFunction(routing).configureClient().build()
+        client = WebTestClient.bindToRouterFunction(routerFunction).configureClient().build()
     }
-
 
     @Test
     fun `get all posts`() {
