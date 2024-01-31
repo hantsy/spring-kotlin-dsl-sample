@@ -1,0 +1,300 @@
+repo_name: hantsy/spring-kotlin-dsl-sample
+report_id: 836ebf4ca5a40b25b4757e975fcfefe5
+version: 0.1
+repo_type: Public
+timestamp: '2024-01-31T08:08:40+00:00'
+requested_by: dependabot[bot]
+provider: github
+branch: master
+detected_tools_count: 24
+tools:
+- name: Java
+  description: A concurrent, class-based, object-oriented, language specifically designed
+    to have as few implementation dependencies as possible
+  website_url: https://www.java.com
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/995/K85ZWV2F.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample
+  detection_source: Repo Metadata
+- name: Kotlin
+  description: Statically typed Programming Language targeting JVM and JavaScript
+  website_url: https://kotlinlang.org/
+  open_source: true
+  hosted_saas: true
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/3750/pCfEzr6L.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample
+  detection_source: Repo Metadata
+- name: Project Reactor
+  description: Library for building non-blocking applications on JVM
+  website_url: https://projectreactor.io/
+  open_source: false
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Java Tools
+  image_url: https://img.stackshare.io/service/5807/default_cbd8ab670309059d7e315252d307d409aa40d793.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/jafu-reactive-r2dbc/pom.xml
+  detection_source: jafu-reactive-r2dbc/pom.xml
+  last_updated_by: Hantsy Bai
+  last_updated_on: 2021-08-14 08:17:25.000000000 Z
+- name: Spring Framework
+  description: An application framework and inversion of control container for the
+    Java platform
+  website_url: https://spring.io/projects/spring-framework
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Frameworks (Full Stack)
+  image_url: https://img.stackshare.io/service/2006/spring-framework-project-logo.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/jafu-reactive-r2dbc/pom.xml
+  detection_source: jafu-reactive-r2dbc/pom.xml
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-04-11 02:10:39.000000000 Z
+- name: MongoDB
+  description: The database for giant ideas
+  website_url: http://www.mongodb.com/
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Databases
+  image_url: https://img.stackshare.io/service/1030/leaf-360x360.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: hantsy
+  last_updated_on: 2020-01-29 08:36:01.000000000 Z
+- name: Redis
+  description: Open source (BSD licensed), in-memory data structure store
+  website_url: http://redis.io/
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: In-Memory Databases
+  image_url: https://img.stackshare.io/service/1031/default_cbce472cd134adc6688572f999e9122b9657d4ba.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: hantsy
+  last_updated_on: 2020-01-29 08:36:01.000000000 Z
+- name: Docker
+  description: Enterprise Container Platform for High-Velocity Innovation.
+  website_url: https://www.docker.com/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Virtual Machine Platforms & Containers
+  image_url: https://img.stackshare.io/service/586/n4u37v9t_400x400.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: hantsy
+  last_updated_on: 2020-01-29 08:36:01.000000000 Z
+- name: Docker Compose
+  description: Define and run multi-container applications with Docker
+  website_url: https://github.com/docker/compose
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Container Tools
+  image_url: https://img.stackshare.io/service/3136/docker-compose.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: hantsy
+  last_updated_on: 2020-01-29 08:36:01.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample
+  detection_source: Repo Metadata
+- name: GitHub Actions
+  description: Automate your workflow from idea to production
+  website_url: https://github.com/features/actions
+  open_source: false
+  hosted_saas: true
+  category: Build, Test, Deploy
+  sub_category: Continuous Integration
+  image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/.github/workflows/jafu-reactive-r2dbc.yml
+  detection_source: ".github/workflows/jafu-reactive-r2dbc.yml"
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2023-12-04 02:04:46.000000000 Z
+- name: JUnit
+  description: A programmer-oriented testing framework for Java
+  website_url: http://junit.org/
+  license: EPL-1.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Testing Frameworks
+  image_url: https://img.stackshare.io/service/2020/874086.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/jafu-reactive-r2dbc/src/test/resources/junit-platform.properties
+  detection_source: jafu-reactive-r2dbc/src/test/resources/junit-platform.properties
+  last_updated_by: hantsy
+  last_updated_on: 2020-06-10 13:37:06.000000000 Z
+- name: Apache Camel
+  description: A versatile open source integration framework
+  website_url: https://camel.apache.org/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Application Hosting
+  sub_category: Platform as a Service
+  image_url: https://img.stackshare.io/service/3276/xWt1RFo6_400x400.jpg
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/jafu-reactive-r2dbc/src/main/resources/application.properties
+  detection_source: jafu-reactive-r2dbc/src/main/resources/application.properties
+- name: Mongo
+  description: Heroku provides services and tools to build, run, and scale web applications.
+    Follow @herokustatus for platform updates. A @salesforce company.
+  website_url: http://wedesignapps.herokuapp.com
+  open_source: false
+  hosted_saas: false
+  image_url: https://img.stackshare.io/service/3519/3wgIDj3j_normal.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: hantsy
+  last_updated_on: 2020-01-29 08:36:01.000000000 Z
+- name: com.fasterxml.jackson.module:jackson-module-kotlin
+  description: Add-on module for Jackson
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/kofu-reactive-mongo/pom.xml
+  detection_source: kofu-reactive-mongo/pom.xml
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2023-11-27 02:06:27.000000000 Z
+- name: io.projectreactor:reactor-test
+  description: Reactor Test support
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/jafu-reactive-r2dbc/pom.xml
+  detection_source: jafu-reactive-r2dbc/pom.xml
+  last_updated_by: Hantsy Bai
+  last_updated_on: 2021-08-14 08:17:25.000000000 Z
+- name: org.jetbrains.kotlin:kotlin-reflect
+  description: Kotlin Full Reflection Library
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/kofu-reactive-mongo/pom.xml
+  detection_source: kofu-reactive-mongo/pom.xml
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2023-11-27 02:06:27.000000000 Z
+- name: org.jetbrains.kotlin:kotlin-stdlib-jdk8
+  description: Kotlin Standard Library JDK 8 extension
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/kofu-reactive-mongo/pom.xml
+  detection_source: kofu-reactive-mongo/pom.xml
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2023-11-27 02:06:27.000000000 Z
+- name: org.projectlombok:lombok
+  description: 'Spice up your java: Automatic Resource Management'
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/jafu-reactive-r2dbc/pom.xml
+  detection_source: jafu-reactive-r2dbc/pom.xml
+  last_updated_by: hantsy
+  last_updated_on: 2020-06-11 01:19:58.000000000 Z
+- name: org.springframework.boot:spring-boot-starter-data-mongodb
+  description: Starter for using MongoDB document-oriented database and Spring Data
+    MongoDB
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/webmvc/pom.xml
+  detection_source: webmvc/pom.xml
+  last_updated_by: Hantsy Bai
+  last_updated_on: 2021-08-14 08:05:28.000000000 Z
+- name: org.springframework.boot:spring-boot-starter-security
+  description: Starter for using Spring Security
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/webflux/pom.xml
+  detection_source: webflux/pom.xml
+  last_updated_by: Hantsy Bai
+  last_updated_on: 2021-08-14 08:10:06.000000000 Z
+- name: org.springframework.boot:spring-boot-starter-test
+  description: Starter for testing Spring Boot applications with libraries including
+    JUnit
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/jafu-reactive-r2dbc/pom.xml
+  detection_source: jafu-reactive-r2dbc/pom.xml
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-04-11 02:10:39.000000000 Z
+- name: org.springframework.boot:spring-boot-starter-validation
+  description: Starter for using Java Bean Validation with Hibernate Validator
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/kofu-reactive-mongo/pom.xml
+  detection_source: kofu-reactive-mongo/pom.xml
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-04-11 02:10:32.000000000 Z
+- name: org.springframework.boot:spring-boot-starter-web
+  description: Starter for building web, including RESTful, applications using Spring
+    MVC
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/webmvc/pom.xml
+  detection_source: webmvc/pom.xml
+  last_updated_by: Hantsy Bai
+  last_updated_on: 2021-08-14 08:05:28.000000000 Z
+- name: org.springframework.security:spring-security-test
+  description: Spring-security-test
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/spring-kotlin-dsl-sample/blob/master/webflux/pom.xml
+  detection_source: webflux/pom.xml
+  last_updated_by: Hantsy Bai
+  last_updated_on: 2021-08-14 08:10:06.000000000 Z
